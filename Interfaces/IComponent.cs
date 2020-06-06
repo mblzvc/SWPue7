@@ -8,7 +8,7 @@ namespace SWP_UE7
 {
     interface IComponent<T>
     {
-        public T GetComponent(Entity entity);
+        public ref T GetComponent( Entity entity);
         public void AddComponent(Entity entity);
     }
 }

@@ -18,9 +18,9 @@ namespace SWP_UE7
             this.bounds = bounds;
         }
 
-        public Vector2f GetComponent(Entity entity)
+        public ref Vector2f GetComponent(Entity entity)
         {
-            return Position[entity.ID];
+            return ref Position[entity.ID];
         }
 
         public void SetComponent(Vector2f position, Entity entity)

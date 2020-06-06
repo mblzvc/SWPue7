@@ -18,9 +18,9 @@ namespace SWP_UE7
             Velocity = new Vector2f[entities];
         }
 
-        public Vector2f GetComponent(Entity entity)
+        public ref Vector2f GetComponent(Entity entity)
         {
-            return Velocity[entity.ID];
+            return ref Velocity[entity.ID];
         }
 
         public void SetComponent(Vector2f velocity,Entity entity)

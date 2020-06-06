@@ -42,27 +42,29 @@ namespace SWP_UE7
                 vc.AddComponent(entity);
             }
 
-            var ms = new MoveSystem(cc, pc, rc, vc, ref bounds);
+            var ms = new MoveSystem(ref bounds);
+            var ds = new DrawSystem();
 
             var clock = new Clock();
 
             while (window.IsOpen)
             {
                 var dt = clock.Restart();
+                window.Clear();
                 foreach (Entity entity in entities)
                 {
-                    ms.Update(ref dt, entity);
+                    ref Vector2f position = ref pc.GetComponent(entity);
+                    ref var velocity = ref vc.GetComponent(entity);
+                    ref var color =ref  cc.GetComponent(entity);
+                    ref var radius =ref  rc.GetComponent(entity);
+
+                    ms.Update(ref dt, ref position, ref velocity, ref radius);
+                    ds.Update(window, ref position, ref color, ref radius);
                 }
                 text.DisplayedString = "frametime: " + dt.AsMilliseconds() + " ms";
-                window.Clear();
-
-                foreach (Entity entity in entities)
-                {
-                    ms.Draw(window, entity);
-
-                }
                 window.Draw(text);
                 window.Display();
+
             }
         }
     }

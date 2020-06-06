@@ -19,9 +19,9 @@ namespace SWP_UE7.Components
             Color[entity.ID] = ColorPicker.GenerateRandomColor();
         }
 
-        public Color GetComponent(Entity entity)
+        public ref Color GetComponent(Entity entity)
         {
-            return Color[entity.ID];
+            return ref Color[entity.ID];
         }
     }
 }

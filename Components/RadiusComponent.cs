@@ -18,9 +18,9 @@ namespace SWP_UE7
             Radius[entity.ID] = rng.GenerateFloat(8.0f, 32.0f);
         }
 
-        public float GetComponent(Entity entity)
+        public ref float GetComponent(Entity entity)
         {
-            return Radius[entity.ID];
+            return ref Radius[entity.ID];
         }
     }
 }

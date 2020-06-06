@@ -11,21 +11,10 @@ namespace SWP_UE7
 {
     class MoveSystem
     {
-        private readonly ColorComponent colorComponent;
-        private readonly PositionComponent positionComponent;
-        private readonly RadiusComponent radiusComponent;
-        private readonly VelocityComponent velocityComponent;
-        private readonly RenderStates _renderStates;
-
         private readonly (Vector2f, float)[] bounds;
 
-        public MoveSystem(ColorComponent cc, PositionComponent pc, RadiusComponent rc, VelocityComponent vc, ref FloatRect worldBounds)
+        public MoveSystem(ref FloatRect worldBounds)
         {
-            colorComponent = cc;
-            positionComponent = pc;
-            radiusComponent = rc;
-            velocityComponent = vc;
-
             bounds = new[]
             {
                 (new Vector2f(0.0f, 1.0f), worldBounds.Top),
@@ -33,17 +22,12 @@ namespace SWP_UE7
                 (new Vector2f(0.0f, -1.0f), worldBounds.Top + worldBounds.Height),
                 (new Vector2f(1.0f, 0.0f), worldBounds.Left)
             };
-
-            _renderStates = new RenderStates(TextureManager.Instance.CircleTexture);
         }
 
-        public void Update(ref Time dt, Entity entity)
+        public void Update(ref Time dt, ref Vector2f position, ref Vector2f velocity, ref float radius)
         {
-            var seconds = dt.AsSeconds();
 
-            Vector2f position = positionComponent.GetComponent(entity);
-            Vector2f velocity = velocityComponent.GetComponent(entity);
-            float radius = radiusComponent.GetComponent(entity);
+            var seconds = dt.AsSeconds();
 
             // calculate the next position
             Vector2f nextPosition = position + velocity * seconds;
@@ -98,41 +82,7 @@ namespace SWP_UE7
 
                 }
             }
-            velocityComponent.SetComponent(velocity, entity);
-            positionComponent.SetComponent(nextPosition, entity);
-
-        }
-
-        public void Draw(RenderWindow window, Entity entity)
-        {
-            var textureSize = (float)_renderStates.Texture.Size.X;
-            var color = colorComponent.GetComponent(entity);
-            var position = positionComponent.GetComponent(entity);
-            var radius = radiusComponent.GetComponent(entity);
-
-            // the texture coordinates
-            var uvTl = new Vector2f(0.0f, 0.0f);
-            var uvTr = new Vector2f(textureSize, 0.0f);
-            var uvBr = new Vector2f(textureSize, textureSize);
-            var uvBl = new Vector2f(0.0f, textureSize);
-
-            // generate the corner coordinates
-            var tl = new Vector2f(position.X - radius, position.Y - radius);
-            var tr = new Vector2f(position.X + radius, position.Y - radius);
-            var bl = new Vector2f(position.X - radius, position.Y + radius);
-            var br = new Vector2f(position.X + radius, position.Y + radius);
-
-            // write the vertices (position, color, texture coordinates)
-            var vertices = new Vertex[]
-            {
-                new Vertex(tl, color, uvTl),
-                new Vertex(tr, color, uvTr),
-                new Vertex(br, color, uvBr),
-                new Vertex(bl, color, uvBl)
-            };
-
-            // draw using the circle texture
-            window.Draw(vertices, PrimitiveType.Quads, _renderStates);
+            position = nextPosition;
         }
     }
 }
