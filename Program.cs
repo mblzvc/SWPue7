@@ -27,7 +27,7 @@ namespace SWP_UE7
 
             var entities = new List<Entity>(es.GetEntities());
             var cc = new ColorComponent(entities.Count);
-            var pc = new PositionComponent(entities.Count);
+            var pc = new PositionComponent(entities.Count, ref bounds);
             var rc = new RadiusComponent(entities.Count);
             var vc = new VelocityComponent(entities.Count);
 
@@ -37,7 +37,7 @@ namespace SWP_UE7
             foreach (Entity entity in entities)
             {
                 cc.AddComponent(entity);
-                pc.AddComponent(entity, bounds);
+                pc.AddComponent(entity);
                 rc.AddComponent(entity);
                 vc.AddComponent(entity);
             }

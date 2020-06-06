@@ -99,10 +99,11 @@ namespace SWP_UE7
                 }
             }
             velocityComponent.SetComponent(velocity, entity);
-            positionComponent.SetComponent(nextPosition,entity);
+            positionComponent.SetComponent(nextPosition, entity);
+
         }
 
-        public void Draw(RenderWindow window,Entity entity)
+        public void Draw(RenderWindow window, Entity entity)
         {
             var textureSize = (float)_renderStates.Texture.Size.X;
             var color = colorComponent.GetComponent(entity);
