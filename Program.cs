@@ -4,6 +4,7 @@ using SFML.Window;
 using SWP_UE7.Components;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SWP_UE7
@@ -18,14 +19,14 @@ namespace SWP_UE7
 
             const uint windowWidth = 1024;
             const uint windowHeight = 768;
-            const int numEntities = 85000;
+            const int numEntities = 170000;
             es.CreateEntities(numEntities);
             var bounds = new FloatRect(.0f, .0f, windowWidth, windowHeight);
 
             var window = new RenderWindow(new VideoMode(windowWidth, windowHeight), $"ECS Moving {numEntities} Circles");
             window.Closed += (sender, e) => { ((Window)sender).Close(); };
 
-            var entities = new List<Entity>(es.GetEntities());
+            var entities = es.GetEntities();
             var cc = new ColorComponent(entities.Count);
             var pc = new PositionComponent(entities.Count, ref bounds);
             var rc = new RadiusComponent(entities.Count);
@@ -60,6 +61,7 @@ namespace SWP_UE7
 
                     ms.Update(ref dt, ref position, ref velocity, ref radius);
                     ds.Update(window, ref position, ref color, ref radius);
+                    //Console.WriteLine(System.Runtime.InteropServices.Marshal.SizeOf(typeof(Entity)));
                 }
                 text.DisplayedString = "frametime: " + dt.AsMilliseconds() + " ms";
                 window.Draw(text);

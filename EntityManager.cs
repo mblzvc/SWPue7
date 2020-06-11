@@ -21,6 +21,7 @@ namespace SWP_UE7
                 CreateEntity();
             }
         }
+
         private Entity CreateEntity()
         {
             var entity = new Entity
