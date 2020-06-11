@@ -26,9 +26,9 @@ namespace SWP_UE7
             uvBl = new Vector2f(0.0f, textureSize);
         }
 
-        public void Update(RenderWindow window, ref Vector2f position, ref Color color, ref float radius)
+        public Vertex[] Update(RenderWindow window, ref Vector2f position, ref Color color, ref float radius)
         {
-            // generate the corner coordinates
+              // generate the corner coordinates
             var tl = new Vector2f(position.X - radius, position.Y - radius);
             var tr = new Vector2f(position.X + radius, position.Y - radius);
             var bl = new Vector2f(position.X - radius, position.Y + radius);
@@ -42,8 +42,9 @@ namespace SWP_UE7
                 new Vertex(br, color, uvBr),
                 new Vertex(bl, color, uvBl)
             };
+            return vertices;
             // draw using the circle texture
-            window.Draw(vertices, PrimitiveType.Quads, _renderStates);
+            //window.Draw(vertices, PrimitiveType.Quads, _renderStates);
         }
     }
 }
