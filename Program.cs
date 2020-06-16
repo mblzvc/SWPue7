@@ -46,6 +46,10 @@ namespace SWP_UE7
 
             var ms = new MoveSystem(ref bounds);
             Vertex[] vertexes = new Vertex[numEntities * 4];
+            for(int i = 0; i< numEntities * 4; i++)
+            {
+                vertexes[i] = new Vertex();
+            }
             var ds = new DrawSystem(ref vertexes);
 
             var clock = new Clock();

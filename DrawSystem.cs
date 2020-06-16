@@ -23,6 +23,7 @@ namespace SWP_UE7
             var textureSize = (float)_renderStates.Texture.Size.X;
 
             this.vertices = vertices;
+            
 
             // the texture coordinates
             uvTl = new Vector2f(0.0f, 0.0f);
@@ -41,10 +42,25 @@ namespace SWP_UE7
 
             // write the vertices (position, color, texture coordinates)
 
-            vertices[id*4] = new Vertex(tl, color, uvTl);
-            vertices[id*4+1] = new Vertex(tr, color, uvTr);
-            vertices[id*4+2] = new Vertex(br, color, uvBr);
-            vertices[id*4+3] = new Vertex(bl, color, uvBl);
+            vertices[id*4].Position=tl;
+            vertices[id*4].Color=color;
+            vertices[id*4].TexCoords=uvTl;
+
+            vertices[id * 4+1].Position = tr;
+            vertices[id * 4 + 1].Color = color;
+            vertices[id * 4 + 1].TexCoords = uvTr;
+
+            vertices[id * 4 + 2].Position = br;
+            vertices[id * 4 + 2].Color = color;
+            vertices[id * 4 + 2].TexCoords = uvBr;
+
+            vertices[id * 4 + 3].Position = bl;
+            vertices[id * 4 + 3].Color = color;
+            vertices[id * 4 + 3].TexCoords = uvBl;
+
+            //vertices[id*4+1] = new Vertex(tr, color, uvTr);
+            //vertices[id*4+2] = new Vertex(br, color, uvBr);
+            //vertices[id*4+3] = new Vertex(bl, color, uvBl);
             
             // draw using the circle texture
             //window.Draw(vertices, PrimitiveType.Quads, _renderStates);
