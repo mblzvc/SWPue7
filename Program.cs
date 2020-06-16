@@ -20,7 +20,7 @@ namespace SWP_UE7
 
             const uint windowWidth = 1024;
             const uint windowHeight = 768;
-            const int numEntities = 140000;
+            const int numEntities = 85000;
             es.CreateEntities(numEntities);
             var bounds = new FloatRect(.0f, .0f, windowWidth, windowHeight);
 
@@ -45,10 +45,11 @@ namespace SWP_UE7
             }
 
             var ms = new MoveSystem(ref bounds);
-            var ds = new DrawSystem();
+            Vertex[] vertexes = new Vertex[numEntities * 4];
+            var ds = new DrawSystem(ref vertexes);
 
             var clock = new Clock();
-            List<Vertex> vertexes = new List<Vertex>();
+            
             RenderStates _renderStates = new RenderStates(TextureManager.Instance.CircleTexture);
             var cycle = 0;
             int frames = 0;
@@ -56,18 +57,17 @@ namespace SWP_UE7
             {
                 var dt = clock.Restart();
                 window.Clear();
-                vertexes = new List<Vertex>();
                 foreach (Entity entity in entities)
                 {
-
                     ref Vector2f position = ref pc.GetComponent(entity);
                     ref var velocity = ref vc.GetComponent(entity);
                     ref var color = ref cc.GetComponent(entity);
                     ref var radius = ref rc.GetComponent(entity);
                     ms.Update(ref dt, ref position, ref velocity, ref radius);
-                    vertexes.AddRange(ds.Update(window, ref position, ref color, ref radius));
+                    //vertexes.AddRange(ds.Update(window, ref position, ref color, ref radius));
+                    ds.Update(window, ref position, ref color, ref radius, entity.ID);
                 }
-                window.Draw(vertexes.ToArray(), PrimitiveType.Quads, _renderStates);
+                window.Draw(vertexes, PrimitiveType.Quads, _renderStates);
                 frames += dt.AsMilliseconds();
                 if (cycle == 10)
                 {
